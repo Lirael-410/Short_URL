@@ -2,22 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
-#define MAX_COLUME 100
-
-typedef struct URL
-{
-    char *code;      // 短码
-    char *origin;    // 原址
-    int id;          // 网址id
-    int visit_times; // 有效次数
-} URL;
-
-typedef struct Manager
-{
-    int capacity;         // 网址数量
-    URL save[MAX_COLUME]; // 存储数组
-} Manager;
+#include "main.h"
 
 enum Menu
 {
@@ -32,6 +17,11 @@ enum Menu
 int main(int argc, char const *argv[])
 {
     int option; // 服务器选项
+    Manager m;
+    init(&m);
+    char original_code[MAX_LENGTH + 1];   // 原址
+    char code[CODE_LENGTH + 1];  // 短码
+    int visit_times = 0;    // 访问（解析）次数，初始化为0
     do
     {
         printf("欢迎使用短网址服务！\n");
@@ -48,6 +38,8 @@ int main(int argc, char const *argv[])
         switch (option)
         {
         case 生成短网址:
+            printf("请输入原址：");
+            scanf("%s", original_code);
             break;
 
         case 访问短网址:
