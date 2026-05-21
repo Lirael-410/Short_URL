@@ -3,16 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "main.h"
-
-enum Menu
-{
-    生成短网址 = 1,
-    访问短网址,
-    查看网址,
-    删除网址,
-    查询网址,
-    退出服务
-};
+#include "generate.h"
 
 int main(int argc, char const *argv[])
 {
@@ -21,7 +12,7 @@ int main(int argc, char const *argv[])
     init(&m);
     char original_code[MAX_LENGTH + 1];   // 原址
     char code[CODE_LENGTH + 1];  // 短码
-    int visit_times = 0;    // 访问（解析）次数，初始化为0
+    unsigned int visit_times = 0;    // 访问（解析）次数，初始化为0
     do
     {
         printf("欢迎使用短网址服务！\n");
@@ -40,6 +31,15 @@ int main(int argc, char const *argv[])
         case 生成短网址:
             printf("请输入原址：");
             scanf("%s", original_code);
+
+            printf("设置访问次数(不超过50)：");
+            scanf("%u", &visit_times);
+            if (visit_times > 50)
+            {
+                printf("设置的访问次数过大，请重新操作\n");
+                break;
+            }
+            generate(&m, original_code, visit_times);
             break;
 
         case 访问短网址:
