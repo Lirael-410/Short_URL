@@ -14,7 +14,6 @@ int hash_cal(unsigned int key);
 int hash_save(Manager *m, unsigned int key);
 void id_to_code(unsigned int id, char *code);
 int generate(Manager *m, char *original_code, unsigned int times);
-void save_to_file(char *original_code, char *code, int visit_times, int id);
 
 extern const char hexdecimal[]; // 62进制表
 
