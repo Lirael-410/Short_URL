@@ -1,6 +1,7 @@
 // generate.c
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "main.h"
 #include "generate.h"
 
@@ -75,22 +76,21 @@ void id_to_code(unsigned int id, char *code)
     {
         code[j] = temp[CODE_LENGTH - j - 1];
     }
-    code[CODE_LENGTH] = '\0';   // 加上结束标识符
+    code[CODE_LENGTH] = '\0'; // 加上结束标识符
 }
 
-
-void generate(Manager *m, char *original_code, unsigned int times)
+int generate(Manager *m, char *original_code, unsigned int times)
 {
     if (strlen(original_code) > MAX_LENGTH)
     {
         printf("原址过长，无法进行生成操作\n");
-        return;
+        return EMPTY;
     }
 
     if (m->capacity == 100)
     {
         printf("储存网址数量已满，无法增加新网址\n");
-        return;
+        return EXIT_FAILURE;
     }
 
     m->capacity++;
@@ -103,4 +103,17 @@ void generate(Manager *m, char *original_code, unsigned int times)
     m->save[index].visit_times = times;
 
     printf("已成功创建\n");
+    return index;
+}
+
+void save_to_file(char *original_code, char *code, int visit_times, int id)
+{
+    FILE *url = fopen("url.txt", "a");
+    if (!url)
+        perror("无法打开文件\n");
+    else
+    {
+        fprintf(url, "%s\t%s\t%d\t%d\n", original_code, code, id, visit_times);
+        fclose(url);
+    }
 }
