@@ -1,4 +1,5 @@
 // generate.c
+// 生成模块
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -9,14 +10,24 @@ const char hexdecimal[] = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQ
 
 void init(Manager *m)
 {
-    m->capacity = 0;
-    m->init_id = 200;
-
     // 将表中所有位置标记为空
     for (int i = 0; i < MAX_COLUME; i++)
     {
         m->save[i].create = EMPTY;
     }
+
+    m->capacity = 0;
+    // 默认初始时为200
+    unsigned int start = 200;
+
+    FILE *f = fopen("id.txt", "r");
+    if (f)
+    {
+        fscanf(f, "%ud", &start);
+        fclose(f);
+    }
+
+    m->next_id = start;
 }
 
 // 哈希取模，其中key代表id
@@ -44,9 +55,8 @@ int hash_save(Manager *m, unsigned int key)
             return -1;
         }
     }
-
-    // 保存当前索引并储存
-    m->save[index].create = index;
+    // 标记当前位置已占用
+    m->save[index].create = 1;
     return index;
 }
 
@@ -81,26 +91,42 @@ void id_to_code(unsigned int id, char *code)
 
 int generate(Manager *m, char *original_code, unsigned int times)
 {
-    if (strlen(original_code) > MAX_LENGTH)
-    {
-        printf("原址过长，无法进行生成操作\n");
-        return EMPTY;
-    }
-
     if (m->capacity == 100)
     {
         printf("储存网址数量已满，无法增加新网址\n");
         return EXIT_FAILURE;
     }
 
+    if (strlen(original_code) > MAX_LENGTH)
+    {
+        printf("原址过长，无法进行生成操作\n");
+        return EMPTY;
+    }
+
+    if (is_repeated(m, original_code))
+    {
+        printf("已存在该网址，重复保存\n");
+        return EMPTY;
+    }
+
     m->capacity++;
     // 创建索引
-    int index = hash_save(m, m->init_id);
+    int index = hash_save(m, m->next_id);
 
-    id_to_code(m->init_id, m->save[index].code);
-    m->save[index].id = (m->init_id)++;
+    id_to_code(m->next_id, m->save[index].code);
+    m->save[index].id = (m->next_id)++;
     strcpy(m->save[index].original, original_code);
     m->save[index].visit_times = times;
+
+    // 将下一个id存入文件
+    FILE *f = fopen("id.txt", "w");
+    if (!f)
+    {
+        perror("无法打开文件\n");
+        return -1;
+    }
+    fprintf(f, "%ud\n", m->next_id);
+    fclose(f);
 
     printf("已成功创建\n");
     return index;

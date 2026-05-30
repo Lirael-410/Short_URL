@@ -56,7 +56,13 @@ int main(int argc, char const *argv[])
             break;
 
         case 查询网址:
-            
+            printf("输入短码查询网址：");
+            scanf("%s", code);
+            int index = find(&m, code);
+            if (index == -1)
+                printf("没有该网址\n");
+            else
+                show(&m, index);
             break;
 
         case 删除网址:
@@ -70,4 +76,16 @@ int main(int argc, char const *argv[])
         }
     } while (option != 5);
     return 0;
+}
+
+void show(Manager *m, int index)
+{
+    printf("原网址：");
+    printf("%s\n", m->save[index].original);
+    printf("短码：");
+    printf("%s\n", m->save[index].code);
+    printf("id：");
+    printf("%ud\n", m->save[index].id);
+    printf("可访问次数：");
+    printf("%d\n", m->save[index].visit_times);
 }

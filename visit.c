@@ -4,7 +4,7 @@
 
 void visit(Manager *m, char *code)
 {
-    int index = find_by_code(m, code);
+    int index = find(m, code);
     if (index == -1)
     {
         printf("未找到该短码\n");
