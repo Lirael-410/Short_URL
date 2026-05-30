@@ -7,5 +7,6 @@
 int is_repeated(Manager *m, char *original_code);
 // 查找成功返回下标，不成功返回-1
 int find(Manager *m, char *code);
+unsigned int code_to_id(char *code);
 
 #endif

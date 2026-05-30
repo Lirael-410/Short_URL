@@ -68,11 +68,7 @@ int main(int argc, char const *argv[])
         case 删除网址:
             printf("输入你要删除的短码：");
             scanf("%s", code);
-            index = find(&m, code);
-            if (index == -1)
-                printf("没有该网址\n");
-            else
-                del_code(&m, code);
+            del_code(&m, code);
             break;
 
         case 退出服务:

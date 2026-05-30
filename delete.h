@@ -3,7 +3,5 @@
 
 // 删除网址信息
 void del_code(Manager *m, char *code);
-// 重置文件内容
-void reset_file();
 
 #endif

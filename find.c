@@ -67,6 +67,6 @@ int find(Manager *m, char *code)
         }
         index = (index + 1) % MAX_COLUME;
     }
-
+    
     return -1;
 }
