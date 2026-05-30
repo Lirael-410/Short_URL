@@ -1,5 +1,8 @@
 // find.c
 // 查找模块
+#include <string.h>
+#include "generate.h"
+#include "main.h"
 #include "find.h"
 
 // int find_by_code(Manager *m, char *code)

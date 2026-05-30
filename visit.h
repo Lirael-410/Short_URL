@@ -1,6 +1,6 @@
-#include <stdio.h>
-#include "main.h"
-#include "find.h"
-#include "generate.h"
+#ifndef VISIT_H
+#define VISIT_H
 
 void visit(Manager *m, char *code);
+
+#endif

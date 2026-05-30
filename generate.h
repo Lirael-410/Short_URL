@@ -2,8 +2,6 @@
 #ifndef GENARATE_H
 #define GENARATE_H
 
-#include "main.h"
-
 #define HASH_MOD 89 // 哈希算法取模值
 #define EMPTY -1    // 哈希表空位置标记
 #define MAX_VISIT_TIMES 50  // 可设置的最多访问次数

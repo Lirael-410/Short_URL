@@ -1,5 +1,9 @@
 // visit.c
 // 访问模块
+#include <stdio.h>
+#include "main.h"
+#include "find.h"
+#include "generate.h"
 #include "visit.h"
 #include "delete.h"
 
