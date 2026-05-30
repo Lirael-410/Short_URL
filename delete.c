@@ -24,4 +24,5 @@ void del_code(Manager *m, char *code)
     m->save[index].create = EMPTY;
 
     m->capacity--;
+    printf("删除成功!\n");
 }
