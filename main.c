@@ -6,6 +6,7 @@
 #include "generate.h"
 #include "find.h"
 #include "visit.h"
+#include "delete.h"
 
 int main(int argc, char const *argv[])
 {
@@ -15,6 +16,7 @@ int main(int argc, char const *argv[])
     char original_code[MAX_LENGTH + 1]; // 原址
     char code[CODE_LENGTH + 1];         // 短码
     unsigned int visit_times = 0;       // 访问（解析）次数，初始化为0
+    int index;  // 下标索引
     do
     {
         printf("欢迎使用短网址服务！\n");
@@ -43,9 +45,7 @@ int main(int argc, char const *argv[])
                     break;
             }
             // 获得当前网址的索引
-            int index = generate(&m, original_code, visit_times);
-            // 将创建成功的网址保存进文件
-            save_to_file(original_code, code, visit_times, m.save[index].id);
+            index = generate(&m, original_code, visit_times);
             printf("%s\n", m.save[index].code);
             break;
 
@@ -58,7 +58,7 @@ int main(int argc, char const *argv[])
         case 查询网址:
             printf("输入短码查询网址：");
             scanf("%s", code);
-            int index = find(&m, code);
+            index = find(&m, code);
             if (index == -1)
                 printf("没有该网址\n");
             else
@@ -66,6 +66,13 @@ int main(int argc, char const *argv[])
             break;
 
         case 删除网址:
+            printf("输入你要删除的短码：");
+            scanf("%s", code);
+            index = find(&m, code);
+            if (index == -1)
+                printf("没有该网址\n");
+            else
+                del_code(&m, code);
             break;
 
         case 退出服务:

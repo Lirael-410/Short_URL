@@ -2,16 +2,16 @@
 // 查找模块
 #include "find.h"
 
-// int find_by_code(Manager *m, char *code)
-// {
-//     for (int i = 0; i < MAX_COLUME; i++)
-//     {
-//         // 找到则返回下标
-//         if (strncmp(code, m->save[i].code, 6) == 0)
-//             return i;
-//     }
-//     return -1;
-// }
+int find_by_code(Manager *m, char *code)
+{
+    for (int i = 0; i < MAX_COLUME; i++)
+    {
+        // 找到则返回下标
+        if (strncmp(code, m->save[i].code, 6) == 0)
+            return i;
+    }
+    return -1;
+}
 
 int is_repeated(Manager *m, char *original_code)
 {
@@ -38,11 +38,11 @@ unsigned int code_to_id(char *code)
         {
             c = code[i] - '0';
         }
-        if (code[i] >= 'a' && code[i] <= 'z')
+        else if (code[i] >= 'a' && code[i] <= 'z')
         {
             c = code[i] - 'a' + 10;
         }
-        if (code[i] >= 'A' && code[i] <= 'Z')
+        else if (code[i] >= 'A' && code[i] <= 'Z')
         {
             c = code[i] - 'A' + 36;
         }
@@ -56,14 +56,14 @@ int find(Manager *m, char *code)
     unsigned int id = code_to_id(code);
     // 获得初始哈希计算出的下标
     int index = hash_cal(id);
-    // 遍历到空位置
-    while (m->save[index].create != EMPTY)
+    for (int i = 0; i < MAX_COLUME; i++)
     {
+        if (m->save[index].create == EMPTY)
+            break;
         if (!strncmp(code, m->save[index].code, 6))
         {
             return index;
         }
-        // 不匹配则索引+1
         index = (index + 1) % MAX_COLUME;
     }
     return -1;

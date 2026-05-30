@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include "main.h"
 #include "generate.h"
+#include "find.h"
 
 const char hexdecimal[] = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
@@ -18,16 +19,7 @@ void init(Manager *m)
 
     m->capacity = 0;
     // 默认初始时为200
-    unsigned int start = 200;
-
-    FILE *f = fopen("id.txt", "r");
-    if (f)
-    {
-        fscanf(f, "%ud", &start);
-        fclose(f);
-    }
-
-    m->next_id = start;
+    m->next_id = 200;
 }
 
 // 哈希取模，其中key代表id
@@ -118,28 +110,6 @@ int generate(Manager *m, char *original_code, unsigned int times)
     strcpy(m->save[index].original, original_code);
     m->save[index].visit_times = times;
 
-    // 将下一个id存入文件
-    FILE *f = fopen("id.txt", "w");
-    if (!f)
-    {
-        perror("无法打开文件\n");
-        return -1;
-    }
-    fprintf(f, "%ud\n", m->next_id);
-    fclose(f);
-
     printf("已成功创建\n");
     return index;
-}
-
-void save_to_file(char *original_code, char *code, int visit_times, int id)
-{
-    FILE *url = fopen("url.txt", "a");
-    if (!url)
-        perror("无法打开文件\n");
-    else
-    {
-        fprintf(url, "%s\t%s\t%d\t%d\n", original_code, code, id, visit_times);
-        fclose(url);
-    }
 }

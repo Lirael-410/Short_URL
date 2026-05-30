@@ -1,6 +1,7 @@
 // visit.c
 // 访问模块
 #include "visit.h"
+#include "delete.h"
 
 void visit(Manager *m, char *code)
 {
@@ -11,9 +12,11 @@ void visit(Manager *m, char *code)
         return;
     }
 
+    // 如果该网址访问次数已归零，自动删除该网址
     if (m->save[index].visit_times == 0)
     {
         printf("该网址访问次数已清零，无法访问\n");
+        del_code(m, code);
         return;
     }
 
