@@ -92,7 +92,7 @@ void show(Manager *m, int index)
     printf("短码：");
     printf("%s\n", m->save[index].code);
     printf("id：");
-    printf("%ud\n", m->save[index].id);
+    printf("%u\n", m->save[index].id);
     printf("可访问次数：");
     printf("%d\n", m->save[index].visit_times);
 }
