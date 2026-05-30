@@ -56,16 +56,6 @@ int find(Manager *m, char *code)
     unsigned int id = code_to_id(code);
     // 获得初始哈希计算出的下标
     int index = hash_cal(id);
-    // for (int i = 0; i < MAX_COLUME; i++)
-    // {
-    //     if (m->save[index].create == EMPTY)
-    //         break;
-    //     if (!strncmp(code, m->save[index].code, 6))
-    //     {
-    //         return index;
-    //     }
-    //     index = (index + 1) % MAX_COLUME;
-    // }
     while (m->save[index].create != EMPTY)
     {
         if (!strncmp(code, m->save[index].code, 6))
@@ -74,6 +64,6 @@ int find(Manager *m, char *code)
         }
         index = (index + 1) % MAX_COLUME;
     }
-    
+
     return -1;
 }
